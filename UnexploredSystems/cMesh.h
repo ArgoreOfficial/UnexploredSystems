@@ -29,5 +29,5 @@ public:
 	void setScale( sf::Vector3f _scale ) { m_scale = _scale; }
 	void setPosition( sf::Vector3f _position ) { m_position = _position; }
 
-	void draw( sf::RenderWindow& window );
+	void draw( sf::RenderWindow& _window );
 };

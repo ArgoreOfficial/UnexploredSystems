@@ -16,32 +16,43 @@ cVertex3f::~cVertex3f()
 {
 	
 }
-
 void cVertex3f::rotateX( float _angle )
 {
-	m_position.x = m_position.x * cos( _angle ) - m_position.y * sin( _angle );
-	m_position.y = m_position.x * sin( _angle ) + m_position.y * cos( _angle );
- // m_position.z = m_position.z
+	float y = m_position.y;
+	float z = m_position.z;
+
+ // m_position.x = m_position.x
+	m_position.y = y * cos( _angle ) - z * sin( _angle );
+	m_position.z = y * sin( _angle ) + z * cos( _angle );
+
 }
 
 void cVertex3f::rotateY( float _angle )
 {
-	m_position.x = m_position.x * cos( _angle ) + m_position.z * sin( _angle );
+	float x = m_position.x;
+	float z = m_position.z;
+
+	m_position.x = x * cos( _angle ) + z * sin( _angle );
  // m_position.y = m_position.y
-	m_position.z = -m_position.x * sin(_angle) + m_position.z * cos(_angle);
+	m_position.z = -x * sin(_angle) + z * cos(_angle);
+
 }
 
 void cVertex3f::rotateZ( float _angle )
 {
- // m_position.x = m_position.x
-	m_position.y = m_position.y * cos( _angle ) - m_position.z * sin( _angle );
-	m_position.z = m_position.y * sin( _angle ) + m_position.z * cos( _angle );
+	float x = m_position.x;
+	float y = m_position.y;
+
+	m_position.x = x * cos( _angle ) - m_position.y * sin( _angle );
+	m_position.y = x * sin( _angle ) + y * cos( _angle );
+ // m_position.z = m_position.z
+
 }
 
 void cVertex3f::rotate( sf::Vector3f _rotation )
 {
-	rotateX( _rotation.x );
 	rotateY( _rotation.y );
+	rotateX( _rotation.x );
 	rotateZ( _rotation.z );
 }
 
@@ -54,8 +65,8 @@ void cVertex3f::scale( sf::Vector3f _scale )
 
 void cVertex3f::transform( sf::Vector3f _rotation, sf::Vector3f _scale, sf::Vector3f _position )
 {
-	scale( _scale );
 	rotate( _rotation );
+	scale( _scale );
 	move( _position );
 }
 
