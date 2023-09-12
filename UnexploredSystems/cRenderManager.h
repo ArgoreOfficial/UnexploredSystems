@@ -9,6 +9,6 @@ public:
 	~cRenderManager();
 
 	void registerMesh( cMesh _mesh, std::string _name ) {
-
+		meshes[ _name ] = _mesh;
 	}
 };
