@@ -1,20 +1,17 @@
 #pragma once
 #include <SFML/Graphics.hpp>
-
-struct sVertex3f {
-	sf::Vector3f m_position;
-	sf::Color m_color;
-};
+#include "cVertex3f.h"
 
 class cMesh {
 
 private:
-	std::vector<sVertex3f> m_vertexArray;
+	std::vector<cVertex3f> m_vertexArray;
 
 
 public:
 	cMesh();
 	~cMesh();
 
-	void AddVertex( sVertex3f _vert );
+	void addVert( cVertex3f _vert );
+	void draw( sf::RenderWindow& window );
 };
