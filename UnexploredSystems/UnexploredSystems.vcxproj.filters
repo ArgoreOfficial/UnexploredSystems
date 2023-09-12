@@ -27,12 +27,18 @@
     <ClCompile Include="cMesh.cpp">
       <Filter>Rendering</Filter>
     </ClCompile>
+    <ClCompile Include="cRenderManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="cMesh.h">
       <Filter>Rendering</Filter>
     </ClInclude>
     <ClInclude Include="cVertex3f.h">
+      <Filter>Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="cRenderManager.h">
       <Filter>Rendering</Filter>
     </ClInclude>
   </ItemGroup>

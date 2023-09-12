@@ -71,7 +71,7 @@ void cMesh::loadFromFile( std::string _path )
 
 void cMesh::draw( sf::RenderWindow& _window )
 {
-	sf::VertexArray vertarr( sf::PrimitiveType::LineStrip );
+	sf::VertexArray face_array( sf::PrimitiveType::LineStrip );
 	
 	sf::ConvexShape shape;
 	shape.setFillColor( sf::Color( 0, 128, 255, 128 ) );
@@ -85,14 +85,16 @@ void cMesh::draw( sf::RenderWindow& _window )
 			vert.transform( m_rotation, m_scale, m_position );
 			sf::Vector3f pos = vert.getPosition();
 			
-			vertarr.append( sf::Vertex( sf::Vector2f( pos.x, pos.y ), sf::Color::Cyan ) );
+			face_array.append( sf::Vertex( sf::Vector2f( pos.x, pos.y ), sf::Color::Cyan ) );
 			shape.setPoint( v, sf::Vector2f( pos.x, pos.y ) );
+
+			if ( v == m_faces[ f ].size() - 1 ) {
+				face_array.append( sf::Vertex( face_array[0] ));
+			}
 		}
-		vertarr.append( sf::Vertex( shape.getPoint(0), sf::Color::Cyan ));
+		
 		_window.draw( shape );
-		_window.draw( vertarr );
-		vertarr.clear();
+		_window.draw( face_array );
+		face_array.clear();
 	}
-	
-	// vertarr.clear();
 }

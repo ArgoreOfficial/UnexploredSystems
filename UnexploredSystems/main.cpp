@@ -4,7 +4,7 @@
 #include "cMesh.h"
 int main()
 {
-    sf::RenderWindow window( sf::VideoMode( 1024, 1024 ), "3D Testing!" );
+    sf::RenderWindow window( sf::VideoMode( 1024, 1024 ), "3D Achieved!" );
 
 
 	cMesh mesh( sf::Vector3f( 512, 512, 512 ), sf::Vector3f( -0.2f, 0, 0 ) );
