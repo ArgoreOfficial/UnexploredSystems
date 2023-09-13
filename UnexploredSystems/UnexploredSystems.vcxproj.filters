@@ -27,8 +27,8 @@
     <ClCompile Include="cMesh.cpp">
       <Filter>Rendering</Filter>
     </ClCompile>
-    <ClCompile Include="cRenderManager.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="cGameManager.cpp">
+      <Filter>Rendering</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -38,7 +38,7 @@
     <ClInclude Include="cVertex3f.h">
       <Filter>Rendering</Filter>
     </ClInclude>
-    <ClInclude Include="cRenderManager.h">
+    <ClInclude Include="cGameManager.h">
       <Filter>Rendering</Filter>
     </ClInclude>
   </ItemGroup>

@@ -369,7 +369,7 @@ public:
     /// \param window Window to copy to the texture
     ///
     ////////////////////////////////////////////////////////////
-    void update(const Window& window);
+    void update(const Window& m_window);
 
     ////////////////////////////////////////////////////////////
     /// \brief Update a part of the texture from the contents of a window
@@ -386,7 +386,7 @@ public:
     /// \param y      Y offset in the texture where to copy the source window
     ///
     ////////////////////////////////////////////////////////////
-    void update(const Window& window, unsigned int x, unsigned int y);
+    void update(const Window& m_window, unsigned int x, unsigned int y);
 
     ////////////////////////////////////////////////////////////
     /// \brief Enable or disable the smooth filter

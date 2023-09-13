@@ -16,6 +16,7 @@ cVertex3f::~cVertex3f()
 {
 	
 }
+
 void cVertex3f::rotateX( float _angle )
 {
 	float y = m_position.y;
