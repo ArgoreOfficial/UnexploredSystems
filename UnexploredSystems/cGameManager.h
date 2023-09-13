@@ -8,7 +8,10 @@ class cGameManager {
 private:
 	sf::Window* m_window;
 	std::map<std::string, cMesh> m_meshes;
-	bool m_running;
+	bool m_running = true;
+
+	void setupShaders();
+	void setupVAO();
 
 	void update();
 	void draw();
