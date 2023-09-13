@@ -1,5 +1,9 @@
 #pragma once
-#include "cVertex3f.h"
+
+#include <GL/glew.h>
+#include <SFML/OpenGL.hpp>
+#include <SFML/Graphics.hpp>
+
 #include <Windows.h>
 #include <sstream>
 #include <fstream>
@@ -9,8 +13,13 @@
 class cMesh {
 
 private:
-	std::vector<cVertex3f> m_vertices;
-	std::vector<std::vector<int>> m_faces;
+	std::vector<float> m_vertices;
+	std::vector<unsigned int> m_face_indices;
+
+	unsigned int m_vertexArrayObject;
+	unsigned int m_vertexBufferObject;
+
+
 	sf::Vector3f m_position;
 	sf::Vector3f m_rotation;
 	sf::Vector3f m_scale;
@@ -19,8 +28,14 @@ public:
 	cMesh( sf::Vector3f _position, sf::Vector3f _rotation );
 	~cMesh();
 	void loadFromFile( std::string _path );
+	void setupBuffers();
 
-	void addVert( cVertex3f _vert ) { m_vertices.push_back( _vert ); }
+	float* getVertexBuffer() { return &m_vertices[ 0 ]; }
+	unsigned int* getFaceIndicesBuffer() { return &m_face_indices[ 0 ]; }
+
+	unsigned int getVertexArrayObject() { return m_vertexArrayObject; }
+	unsigned int getVertexBufferObject() { return m_vertexBufferObject; }
+
 	void rotate( sf::Vector3f _angle ) { m_rotation += _angle; }
 	void scale( sf::Vector3f _delta ) { m_scale += _delta; }
 	void move( sf::Vector3f _direction ) { m_position += _direction; }

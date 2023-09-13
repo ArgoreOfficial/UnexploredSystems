@@ -45,32 +45,55 @@ void cMesh::loadFromFile( std::string _path )
 		}
 
 		if ( keys[ 0 ] == "v" ) { // vertex
-			addVert( cVertex3f( 
-				stof( keys[ 1 ] ),
-				stof( keys[ 2 ] ),
-				stof( keys[ 3 ] )
-			) );
+			m_vertices.push_back( stof( keys[ 1 ] ) );
+			m_vertices.push_back( stof( keys[ 2 ] ) );
+			m_vertices.push_back( stof( keys[ 3 ] ) );
 		}
 		else if ( keys[ 0 ] == "f" ) { // face
-			std::vector<int> face;
-
 			// loop through vert indecies 
 			for ( int i = 1; i < keys.size(); i++ ) {
 				std::string::size_type pos = keys[i].find('/');
 				std::string value = keys[ i ].substr( 0, pos );
-				face.push_back(stoi(value));
+				m_face_indices.push_back( stoi( value ) );
 			}
 
-			m_faces.push_back( face );
 		}
 	}
 
 	file_in.close();
 	std::cout << "Finished loading!\n";
+
+	setupBuffers();
+}
+
+void cMesh::setupBuffers()
+{
+	float vertices[] = {
+		-0.5f, -0.5f, 0.0f,
+		 0.5f, -0.5f, 0.0f,
+		 0.0f,  0.5f, 0.0f
+	};
+
+	// create vertex array object
+	glGenVertexArrays( 1, &m_vertexArrayObject );
+	glBindVertexArray( m_vertexArrayObject );
+
+	// create vertex buffer object
+	glGenBuffers( 1, &m_vertexBufferObject );
+
+	glBindBuffer( GL_ARRAY_BUFFER, m_vertexBufferObject );
+	glBufferData( GL_ARRAY_BUFFER, sizeof( vertices ), vertices, GL_STATIC_DRAW );
+
+
+	// set vertex attribute, basically how the gpu should handle the vertex array
+	glVertexAttribPointer( 0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof( float ), ( void* )0 );
+	glEnableVertexAttribArray( 0 );
+
+	glBindVertexArray( 0 );
 }
 
 void cMesh::draw( sf::RenderWindow& _window )
-{
+{/*
 	sf::VertexArray face_array( sf::PrimitiveType::LineStrip );
 	
 	sf::ConvexShape shape;
@@ -97,4 +120,5 @@ void cMesh::draw( sf::RenderWindow& _window )
 		_window.draw( face_array );
 		face_array.clear();
 	}
+ */
 }
