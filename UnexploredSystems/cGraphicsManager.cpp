@@ -64,7 +64,6 @@ void cGraphicsManager::draw()
 	glClearColor( 0.392f, 0.584f, 0.929f, 1.0f ); // cornflower blue
 	glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
 
-
 	// glPolygonMode( GL_FRONT_AND_BACK, GL_LINE ); // draw as wireframe
 
 	for ( int i = 0; i < m_meshes.size(); i++ )
