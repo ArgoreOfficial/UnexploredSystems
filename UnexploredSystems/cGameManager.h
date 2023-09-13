@@ -1,15 +1,12 @@
 #pragma once
-#include "cMesh.h"
+#include "cGraphicsManager.h"
 
 class cGameManager {
 private:
 	sf::Window* m_window;
-	std::vector<cMesh> m_meshes;
+	cGraphicsManager m_graphicsManager;
+
 	bool m_running = true;
-
-
-	void setupShaders();
-	void setupVAO();
 
 	void update();
 	void draw();

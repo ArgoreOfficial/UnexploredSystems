@@ -30,7 +30,7 @@ public:
 	cMesh();
 	cMesh( sf::Vector3f _position, sf::Vector3f _rotation );
 	~cMesh();
-	void loadFromFile( std::string _path );
+	void loadFromFile( const std::string& _path );
 	void setupBuffers();
 
 	float* getVertexBuffer() { return &m_vertices[ 0 ]; }

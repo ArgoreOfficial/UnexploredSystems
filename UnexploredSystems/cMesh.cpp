@@ -15,7 +15,7 @@ cMesh::cMesh( sf::Vector3f _position, sf::Vector3f _rotation ):
 cMesh::~cMesh()
 { }
 
-void cMesh::loadFromFile( std::string _path )
+void cMesh::loadFromFile( const std::string& _path )
 {
 	std::cout << "Loading " << _path << "\n";
 
