@@ -48,42 +48,47 @@ void cMesh::loadFromFile( std::string _path )
 			m_vertices.push_back( stof( keys[ 1 ] ) );
 			m_vertices.push_back( stof( keys[ 2 ] ) );
 			m_vertices.push_back( stof( keys[ 3 ] ) );
+			m_vertexBufferSize += 12; // float size * 3
 		}
+
 		else if ( keys[ 0 ] == "f" ) { // face
 			// loop through vert indecies 
 			for ( int i = 1; i < keys.size(); i++ ) {
 				std::string::size_type pos = keys[i].find('/');
 				std::string value = keys[ i ].substr( 0, pos );
-				m_face_indices.push_back( stoi( value ) );
+				m_face_indices.push_back( stoi( value ) - 1 );
+				m_faceIndicesBufferSize += 4; // unsigned int size
 			}
-
 		}
 	}
 
 	file_in.close();
-	std::cout << "Finished loading!\n";
+	std::cout << "Finished loading\n";
+	std::cout << "m_vertexBufferSize " << m_vertexBufferSize << "\n";
+	std::cout << "m_faceIndicesBufferSize " << m_faceIndicesBufferSize << "\n";
+	std::cout << "\n";
 
 	setupBuffers();
 }
 
 void cMesh::setupBuffers()
 {
-	float vertices[] = {
-		-0.5f, -0.5f, 0.0f,
-		 0.5f, -0.5f, 0.0f,
-		 0.0f,  0.5f, 0.0f
-	};
+	float* vertices = getVertexBuffer();
+	unsigned int* indices = getFaceIndicesBuffer();
 
-	// create vertex array object
+	// vertex array object
 	glGenVertexArrays( 1, &m_vertexArrayObject );
 	glBindVertexArray( m_vertexArrayObject );
 
-	// create vertex buffer object
+	// vertex buffer object
 	glGenBuffers( 1, &m_vertexBufferObject );
-
 	glBindBuffer( GL_ARRAY_BUFFER, m_vertexBufferObject );
-	glBufferData( GL_ARRAY_BUFFER, sizeof( vertices ), vertices, GL_STATIC_DRAW );
+	glBufferData( GL_ARRAY_BUFFER, m_vertexBufferSize, vertices, GL_STATIC_DRAW);
 
+	// element buffer object
+	glGenBuffers( 1, &m_elementBufferObject );
+	glBindBuffer( GL_ELEMENT_ARRAY_BUFFER, m_elementBufferObject );
+	glBufferData( GL_ELEMENT_ARRAY_BUFFER, m_faceIndicesBufferSize, indices, GL_STATIC_DRAW);
 
 	// set vertex attribute, basically how the gpu should handle the vertex array
 	glVertexAttribPointer( 0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof( float ), ( void* )0 );

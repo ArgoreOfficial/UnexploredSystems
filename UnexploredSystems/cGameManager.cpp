@@ -59,6 +59,7 @@ void cGameManager::setupShaders()
 
 void cGameManager::setupVAO()
 {
+
 }
 
 void cGameManager::update()
@@ -86,13 +87,14 @@ void cGameManager::draw()
 	glClearColor( 0, 0, 0, 1.0f );
 	glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
 
-	// mesh.rotate( sf::Vector3f( 0, dt / 2.0f, 0 ) );
-	// mesh.draw( m_window );
-	// m_window.display();
+	glPolygonMode( GL_FRONT_AND_BACK, GL_LINE ); // draw as wireframe
 
-	glBindVertexArray( m_meshes[0].getVertexArrayObject() );
-	glDrawArrays( GL_TRIANGLES, 0, 3 );
-	
+	for ( int i = 0; i < m_meshes.size(); i++ )
+	{
+		glBindVertexArray( m_meshes[ i ].getVertexArrayObject() );
+		glDrawElements( GL_TRIANGLES, m_meshes[ i ].getFaceIndicesBufferSize(), GL_UNSIGNED_INT, 0);
+	}
+
 
 	m_window->display();
 }
@@ -105,7 +107,7 @@ void cGameManager::createWindow()
 	settings.antialiasingLevel = 4;
 	settings.majorVersion = 3;
 	settings.minorVersion = 0;
-	m_window = new sf::Window( sf::VideoMode( 640, 480 ), "Unexplored Systems - OpenGL Setup", sf::Style::Default, settings );
+	m_window = new sf::Window( sf::VideoMode( 640, 480 ), "Unexplored Systems - Triangle!", sf::Style::Default, settings );
 
 	sf::ContextSettings set_settings = m_window->getSettings();
 
@@ -113,6 +115,7 @@ void cGameManager::createWindow()
 	std::cout << "stencil bits: " << settings.stencilBits << std::endl;
 	std::cout << "antialiasing level: " << settings.antialiasingLevel << std::endl;
 	std::cout << "version: " << settings.majorVersion << "." << settings.minorVersion << std::endl;
+	std::cout << "\n";
 
 	m_window->setVerticalSyncEnabled( false );
 	m_window->setActive( true );
@@ -122,10 +125,14 @@ void cGameManager::createWindow()
 	glewExperimental = GL_TRUE;
 	glewInit();
 
-	cMesh testmesh;
-	m_meshes.push_back( testmesh );
-	m_meshes[ 0 ].setupBuffers();
-	
+	cMesh a;
+	m_meshes.push_back( a );
+	m_meshes[ 0 ].loadFromFile( "NormalISD.obj" );
+
+	cMesh b;
+	m_meshes.push_back( b );
+	m_meshes[ 1 ].loadFromFile( "testship.obj" );
+
 	setupShaders();
 }
 

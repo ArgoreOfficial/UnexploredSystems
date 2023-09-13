@@ -18,7 +18,10 @@ private:
 
 	unsigned int m_vertexArrayObject;
 	unsigned int m_vertexBufferObject;
+	unsigned int m_elementBufferObject;
 
+	unsigned int m_vertexBufferSize;
+	unsigned int m_faceIndicesBufferSize;
 
 	sf::Vector3f m_position;
 	sf::Vector3f m_rotation;
@@ -32,9 +35,11 @@ public:
 
 	float* getVertexBuffer() { return &m_vertices[ 0 ]; }
 	unsigned int* getFaceIndicesBuffer() { return &m_face_indices[ 0 ]; }
-
+	
 	unsigned int getVertexArrayObject() { return m_vertexArrayObject; }
 	unsigned int getVertexBufferObject() { return m_vertexBufferObject; }
+	unsigned int getElementBufferObject() { return m_elementBufferObject; }
+	unsigned int getFaceIndicesBufferSize() { return m_faceIndicesBufferSize; }
 
 	void rotate( sf::Vector3f _angle ) { m_rotation += _angle; }
 	void scale( sf::Vector3f _delta ) { m_scale += _delta; }
