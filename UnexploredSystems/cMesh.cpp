@@ -49,6 +49,12 @@ void cMesh::loadFromFile( const std::string& _path )
 			m_vertices.push_back( stof( keys[ 2 ] ) );
 			m_vertices.push_back( stof( keys[ 3 ] ) );
 			m_vertexBufferSize += 12; // float size * 3
+
+			m_vertexColors.push_back( 1.0f );
+			m_vertexColors.push_back( 0.0f );
+			m_vertexColors.push_back( 1.0f );
+			m_vertexColors.push_back( 1.0f );
+			m_vertexColorBufferSize += 16; // float size * 4
 		}
 
 		else if ( keys[ 0 ] == "f" ) { // face
@@ -74,6 +80,7 @@ void cMesh::loadFromFile( const std::string& _path )
 void cMesh::setupBuffers()
 {
 	float* vertices = getVertexBuffer();
+	float* colors = getVertexColorBuffer();
 	unsigned int* indices = getFaceIndicesBuffer();
 
 	// vertex array object
@@ -85,14 +92,18 @@ void cMesh::setupBuffers()
 	glBindBuffer( GL_ARRAY_BUFFER, m_vertexBufferObject );
 	glBufferData( GL_ARRAY_BUFFER, m_vertexBufferSize, vertices, GL_STATIC_DRAW);
 
+
 	// element buffer object
 	glGenBuffers( 1, &m_elementBufferObject );
 	glBindBuffer( GL_ELEMENT_ARRAY_BUFFER, m_elementBufferObject );
 	glBufferData( GL_ELEMENT_ARRAY_BUFFER, m_faceIndicesBufferSize, indices, GL_STATIC_DRAW);
 
+	/*
 	// set vertex attribute, basically how the gpu should handle the vertex array
 	glVertexAttribPointer( 0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof( float ), ( void* )0 );
 	glEnableVertexAttribArray( 0 );
+	*/
+	
 
 	glBindVertexArray( 0 );
 }

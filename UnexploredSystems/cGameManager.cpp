@@ -45,7 +45,7 @@ void cGameManager::createWindow()
 	settings.antialiasingLevel = 4;
 	settings.majorVersion = 3;
 	settings.minorVersion = 0;
-	m_window = new sf::Window( sf::VideoMode( 640, 480 ), "Unexplored Systems - Triangle!", sf::Style::Default, settings );
+	m_window = new sf::Window( sf::VideoMode( 640 * 2, 480 * 2), "Unexplored Systems - Models!", sf::Style::Default, settings );
 
 	sf::ContextSettings set_settings = m_window->getSettings();
 
