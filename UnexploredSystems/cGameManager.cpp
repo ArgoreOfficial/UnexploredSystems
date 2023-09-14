@@ -29,28 +29,34 @@ void cGameManager::update(float _dt, float _t)
 		}
 	}
 
-	float speed = 5.0f * _dt;
+	sf::Vector2i mouse_center = ( sf::Vector2i(m_window->getSize()) / 2);
+	sf::Vector2i mouse_pos = sf::Mouse::getPosition( *m_window );
 
-	if ( sf::Keyboard::isKeyPressed( sf::Keyboard::W ) ) {
+	m_mouseDelta = glm::vec2(
+		mouse_center.x - mouse_pos.x,
+		mouse_center.y - mouse_pos.y
+	);
+
+	// camera movement
+	float speed = 3.0f * _dt;
+	if ( sf::Keyboard::isKeyPressed( sf::Keyboard::W ) )
 		m_camera.move( glm::vec3( 0, 0, -speed ) );
-	}
-	if ( sf::Keyboard::isKeyPressed( sf::Keyboard::S ) ) {
-		m_camera.move( glm::vec3( 0, 0, speed ) );
-	}
-	if ( sf::Keyboard::isKeyPressed( sf::Keyboard::A ) ) {
-		m_camera.move( glm::vec3( -speed, 0, 0) );
-	}
-	if ( sf::Keyboard::isKeyPressed( sf::Keyboard::D ) ) {
-		m_camera.move( glm::vec3( speed, 0, 0 ) );
-	}
-	if ( sf::Keyboard::isKeyPressed( sf::Keyboard::LShift ) ) {
-		m_camera.move( glm::vec3( 0, speed, 0 ) );
-	}
-	if ( sf::Keyboard::isKeyPressed( sf::Keyboard::LControl ) ) {
-		m_camera.move( glm::vec3( 0, -speed, 0 ) );
-	}
+	if ( sf::Keyboard::isKeyPressed( sf::Keyboard::S ) ) m_camera.move( glm::vec3( 0, 0, speed ) );
+	if ( sf::Keyboard::isKeyPressed( sf::Keyboard::A ) ) m_camera.move( glm::vec3( -speed, 0, 0) );
+	if ( sf::Keyboard::isKeyPressed( sf::Keyboard::D ) ) m_camera.move( glm::vec3( speed, 0, 0 ) );
+	if ( sf::Keyboard::isKeyPressed( sf::Keyboard::E ) ) m_camera.move( glm::vec3( 0, speed, 0 ) );
+	if ( sf::Keyboard::isKeyPressed( sf::Keyboard::Q ) ) m_camera.move( glm::vec3( 0, -speed, 0 ) );
+	
+	float rotspeed = 60.0f * speed;
+	m_camera.rotate( glm::vec3( 
+		std::clamp(m_mouseDelta.y * rotspeed, -rotspeed, rotspeed ),
+		std::clamp( m_mouseDelta.x * rotspeed, -rotspeed, rotspeed ), 0) );
+
+	// if(abs( m_mouseDelta.x ) > 0) std::cout << m_mouseDelta.x << "\n";
 
 	m_graphicsManager.update(_dt, _t);
+
+	sf::Mouse::setPosition( mouse_center, *m_window );
 }
 
 void cGameManager::draw()
@@ -73,7 +79,7 @@ void cGameManager::createWindow()
 	m_window->setVerticalSyncEnabled( false );
 	m_window->setActive( true );
 
-	m_camera = cCamera( *m_window );
+	m_camera = cCamera( *m_window, 45.0f );
 
 	m_graphicsManager.initGL( m_window );
 	
@@ -92,6 +98,7 @@ void cGameManager::run()
 		
 		update(dt, total_clock.getElapsedTime().asSeconds());
 		draw();
+
 	}
 }
 

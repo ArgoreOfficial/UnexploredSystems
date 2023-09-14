@@ -14,7 +14,7 @@ void cGraphicsManager::update(float _dt, float _t)
 {
 	for ( int i = 0; i < m_meshes.size(); i++ )
 	{
-		m_meshes[ i ].rotate( sf::Vector3f( 0, 45.0f, 0 ) * _dt );
+		m_meshes[ i ].rotate( sf::Vector3f( 0, 0, 0 ) * _dt );
 	}
 }
 
@@ -48,10 +48,10 @@ void cGraphicsManager::draw( cCamera _camera )
 
 	for ( int i = 0; i < m_meshes.size(); i++ )
 	{
-		glDisable( GL_CULL_FACE );
-		drawMesh( m_meshes[ i ], m_shaderPrograms[ "white" ], _camera, GL_LINE);
-		glEnable( GL_CULL_FACE );
-		drawMesh( m_meshes[ i ], m_shaderPrograms[ "translucent" ], _camera );
+		// glDisable( GL_CULL_FACE );
+		// drawMesh( m_meshes[ i ], m_shaderPrograms[ "white" ], _camera, GL_LINE);
+		// glEnable( GL_CULL_FACE );
+		drawMesh( m_meshes[ i ], m_shaderPrograms[ "default" ], _camera );
 	}
 
 }
@@ -65,7 +65,11 @@ void cGraphicsManager::drawMesh( cMesh& _mesh, unsigned int& _shaderProgram, cCa
 
 	glm::mat4 projection = _camera.getProjectionMatrix();
 
+	glm::vec3 view_rot = _camera.getRotation();
 	glm::mat4 view = glm::mat4( 1.0f );
+	view = glm::rotate( view, glm::radians( view_rot.x ), glm::vec3( 1.0, 0.0, 0.0 ) );
+	view = glm::rotate( view, glm::radians( view_rot.y ), glm::vec3( 0.0, 1.0, 0.0 ) );
+	view = glm::rotate( view, glm::radians( view_rot.z ), glm::vec3( 0.0, 0.0, 1.0 ) );
 	view = glm::translate( view, -_camera.getPosition() );
 
 	glm::mat4 model = glm::mat4( 1.0f );

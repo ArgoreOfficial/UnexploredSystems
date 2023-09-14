@@ -10,6 +10,8 @@ private:
 	cCamera m_camera;
 
 	bool m_running = true;
+	glm::vec2 m_mouseDelta;
+	sf::Vector2i m_lastMousePos;
 
 	void update(float _dt, float _t );
 	void draw();
