@@ -60,9 +60,9 @@ void cMesh::loadFromFile( const std::string& _path )
 			m_vertices.push_back( stof( keys[ 3 ] ) );
 			m_vertexBufferSize += 12; // float size * 3
 			// vert colours
-			m_vertices.push_back( float(rand() % 11) / 10.0f );
-			m_vertices.push_back( float( rand() % 11 ) / 10.0f );
-			m_vertices.push_back( float( rand() % 11 ) / 10.0f );
+			m_vertices.push_back(0.0f);// float( rand() % 11 ) / 10.0f );
+			m_vertices.push_back(0.5f);// float( rand() % 11 ) / 10.0f );
+			m_vertices.push_back(1.0f);// float( rand() % 11 ) / 10.0f );
 			m_vertexBufferSize += 12; // float size * 3
 		}
 

@@ -1,14 +1,17 @@
 #pragma once
 #include "cGraphicsManager.h"
+#include "cCamera.h"
 
 class cGameManager {
 private:
 	sf::Window* m_window;
+	
 	cGraphicsManager m_graphicsManager;
+	cCamera m_camera;
 
 	bool m_running = true;
 
-	void update(float _dt);
+	void update(float _dt, float _t );
 	void draw();
 
 public:

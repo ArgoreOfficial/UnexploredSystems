@@ -10,12 +10,11 @@ cGraphicsManager::~cGraphicsManager()
 	
 }
 
-void cGraphicsManager::update(float _dt)
+void cGraphicsManager::update(float _dt, float _t)
 {
-
 	for ( int i = 0; i < m_meshes.size(); i++ )
 	{
-		m_meshes[ i ].rotate( sf::Vector3f( 0, 45.0f * _dt, 0 ) );
+		m_meshes[ i ].rotate( sf::Vector3f( 0, 45.0f, 0 ) * _dt );
 	}
 }
 
@@ -41,39 +40,51 @@ void cGraphicsManager::initShaders()
 }
 
 
-void cGraphicsManager::draw()
+void cGraphicsManager::draw( cCamera _camera )
 {
-	glClearColor( 0.392f, 0.584f, 0.929f, 1.0f ); // cornflower blue
+	// glClearColor( 0.392f, 0.584f, 0.929f, 1.0f ); // cornflower blue
+	glClearColor( 0.0f, 0.0f, 0.0f, 1.0f ); // black
 	glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
-
 
 	for ( int i = 0; i < m_meshes.size(); i++ )
 	{
-		
-		// set transforms
-		glm::mat4 trans = glm::mat4( 1.0f );
-		sf::Vector3f mesh_rot = m_meshes[ i ].getRotation();
-		trans = glm::rotate( trans, glm::radians( mesh_rot.x ), glm::vec3(1.0, 0.0, 0.0));
-		trans = glm::rotate( trans, glm::radians( mesh_rot.y ), glm::vec3( 0.0, 1.0, 0.0 ) );
-		trans = glm::rotate( trans, glm::radians( mesh_rot.z ), glm::vec3( 0.0, 0.0, 1.0 ) );
-
-		trans = glm::scale( trans, glm::vec3( 1.0, 1.0, 1.0 ) );
-		
-		glUniformMatrix4fv( glGetUniformLocation( m_shaderPrograms[ "default" ], "transform" ), 1, GL_FALSE, glm::value_ptr( trans ) );
-		glUniformMatrix4fv( glGetUniformLocation( m_shaderPrograms[ "white" ], "transform" ), 1, GL_FALSE, glm::value_ptr( trans ) );
-
-		glBindVertexArray( m_meshes[ i ].getVertexArrayObject() );
-		
-		glUseProgram( m_shaderPrograms[ "white" ] );
-		glPolygonMode( GL_FRONT_AND_BACK, GL_FILL );
-		glDrawElements( GL_TRIANGLES, m_meshes[ i ].getFaceIndicesBufferSize(), GL_UNSIGNED_INT, 0 );
-
-		glUseProgram( m_shaderPrograms["default"]);
-		glPolygonMode( GL_FRONT_AND_BACK, GL_LINE );
-		glDrawElements( GL_TRIANGLES, m_meshes[ i ].getFaceIndicesBufferSize(), GL_UNSIGNED_INT, 0 );
-		
-		
+		glDisable( GL_CULL_FACE );
+		drawMesh( m_meshes[ i ], m_shaderPrograms[ "white" ], _camera, GL_LINE);
+		glEnable( GL_CULL_FACE );
+		drawMesh( m_meshes[ i ], m_shaderPrograms[ "translucent" ], _camera );
 	}
+
+}
+
+void cGraphicsManager::drawMesh( cMesh& _mesh, unsigned int& _shaderProgram, cCamera _camera, GLenum _mode )
+{
+	// transform
+	sf::Vector3f mesh_rot = _mesh.getRotation();
+	sf::Vector3f mesh_pos = _mesh.getPosition();
+	sf::Vector3f mesh_scale = _mesh.getScale();
+
+	glm::mat4 projection = _camera.getProjectionMatrix();
+
+	glm::mat4 view = glm::mat4( 1.0f );
+	view = glm::translate( view, -_camera.getPosition() );
+
+	glm::mat4 model = glm::mat4( 1.0f );
+	model = glm::rotate( model, glm::radians( mesh_rot.x ), glm::vec3( 1.0, 0.0, 0.0 ) );
+	model = glm::rotate( model, glm::radians( mesh_rot.y ), glm::vec3( 0.0, 1.0, 0.0 ) );
+	model = glm::rotate( model, glm::radians( mesh_rot.z ), glm::vec3( 0.0, 0.0, 1.0 ) );
+	model = glm::scale( model, glm::vec3( mesh_scale.x, mesh_scale.y, mesh_scale.z ) );
+	model = glm::translate( model, glm::vec3( mesh_pos.x, mesh_pos.z, mesh_pos.y ) );
+
+	// pass matrices to attribute
+	glUniformMatrix4fv( glGetUniformLocation( _shaderProgram, "projection" ), 1, GL_FALSE, glm::value_ptr( projection ) );
+	glUniformMatrix4fv( glGetUniformLocation( _shaderProgram, "view" ), 1, GL_FALSE, glm::value_ptr( view ) );
+	glUniformMatrix4fv( glGetUniformLocation( _shaderProgram, "model" ), 1, GL_FALSE, glm::value_ptr( model ) );
+
+	// bind and render
+	glBindVertexArray( _mesh.getVertexArrayObject() );
+	glUseProgram( _shaderProgram );
+	glPolygonMode( GL_FRONT_AND_BACK, _mode );
+	glDrawElements( GL_TRIANGLES, _mesh.getFaceIndicesBufferSize(), GL_UNSIGNED_INT, 0 );
 }
 
 void cGraphicsManager::initGL( sf::Window* _window )
@@ -88,10 +99,12 @@ void cGraphicsManager::initGL( sf::Window* _window )
 	glBlendFunc( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA );
 	
 	glEnable( GL_CULL_FACE );
+	
 	glEnable( GL_DEPTH_TEST );
 	glDepthMask( GL_TRUE );
 	glDepthFunc( GL_LEQUAL );
-	glDepthRange( 1.0f, 0.0f );
+	glDepthRange( 0.0f, 1.0f );
+	
 
 	initShaders();
 }

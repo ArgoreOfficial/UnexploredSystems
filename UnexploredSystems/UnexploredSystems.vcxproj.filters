@@ -30,6 +30,9 @@
     <ClCompile Include="cGraphicsManager.cpp">
       <Filter>Rendering</Filter>
     </ClCompile>
+    <ClCompile Include="cCamera.cpp">
+      <Filter>Rendering</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="cMesh.h">
@@ -39,6 +42,9 @@
       <Filter>Rendering</Filter>
     </ClInclude>
     <ClInclude Include="cGraphicsManager.h">
+      <Filter>Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="cCamera.h">
       <Filter>Rendering</Filter>
     </ClInclude>
   </ItemGroup>

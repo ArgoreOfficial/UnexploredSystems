@@ -135,12 +135,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="cCamera.cpp" />
     <ClCompile Include="cGraphicsManager.cpp" />
     <ClCompile Include="cMesh.cpp" />
     <ClCompile Include="cGameManager.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="cCamera.h" />
     <ClInclude Include="cGraphicsManager.h" />
     <ClInclude Include="cMesh.h" />
     <ClInclude Include="cGameManager.h" />

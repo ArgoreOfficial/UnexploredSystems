@@ -1,5 +1,6 @@
 #pragma once
 #include "cMesh.h"
+#include "cCamera.h"
 #include <glm.hpp>
 #include <gtc/matrix_transform.hpp>
 #include <gtc/type_ptr.hpp>
@@ -14,8 +15,9 @@ private:
 public:
 	cGraphicsManager();
 	~cGraphicsManager();
-	void update( float _dt );
-	void draw();
+	void update( float _dt, float _t );
+	void draw( cCamera _camera );
+	void drawMesh(cMesh& _mesh, unsigned int& _shaderProgram, cCamera _camera, GLenum _mode = GL_FILL);
 	void initGL( sf::Window* _window );
 	void loadMesh( const std::string& _path );
 	unsigned int loadVertexShader( const std::string& _path );

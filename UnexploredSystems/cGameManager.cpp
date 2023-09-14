@@ -11,7 +11,7 @@ cGameManager::~cGameManager()
 }
 
 
-void cGameManager::update(float _dt)
+void cGameManager::update(float _dt, float _t)
 {
 	// handle events
 	sf::Event event;
@@ -29,12 +29,33 @@ void cGameManager::update(float _dt)
 		}
 	}
 
-	m_graphicsManager.update(_dt);
+	float speed = 5.0f * _dt;
+
+	if ( sf::Keyboard::isKeyPressed( sf::Keyboard::W ) ) {
+		m_camera.move( glm::vec3( 0, 0, -speed ) );
+	}
+	if ( sf::Keyboard::isKeyPressed( sf::Keyboard::S ) ) {
+		m_camera.move( glm::vec3( 0, 0, speed ) );
+	}
+	if ( sf::Keyboard::isKeyPressed( sf::Keyboard::A ) ) {
+		m_camera.move( glm::vec3( -speed, 0, 0) );
+	}
+	if ( sf::Keyboard::isKeyPressed( sf::Keyboard::D ) ) {
+		m_camera.move( glm::vec3( speed, 0, 0 ) );
+	}
+	if ( sf::Keyboard::isKeyPressed( sf::Keyboard::LShift ) ) {
+		m_camera.move( glm::vec3( 0, speed, 0 ) );
+	}
+	if ( sf::Keyboard::isKeyPressed( sf::Keyboard::LControl ) ) {
+		m_camera.move( glm::vec3( 0, -speed, 0 ) );
+	}
+
+	m_graphicsManager.update(_dt, _t);
 }
 
 void cGameManager::draw()
 {
-	m_graphicsManager.draw();
+	m_graphicsManager.draw(m_camera);
 
 	m_window->display();
 }
@@ -52,21 +73,24 @@ void cGameManager::createWindow()
 	m_window->setVerticalSyncEnabled( false );
 	m_window->setActive( true );
 
+	m_camera = cCamera( *m_window );
+
 	m_graphicsManager.initGL( m_window );
 	
-	m_graphicsManager.loadMesh( "testship.obj" );
-	m_graphicsManager.loadMesh( "NormalISD.obj" );
+	// m_graphicsManager.loadMesh( "assets/meshes/testship.obj" );
+	m_graphicsManager.loadMesh( "assets/meshes/NormalISD.obj" );
 }
 
 void cGameManager::run()
 {
 	sf::Clock delta_clock;
+	sf::Clock total_clock;
 
 	while ( m_running )
 	{
 		float dt = delta_clock.restart().asSeconds();
 		
-		update(dt);
+		update(dt, total_clock.getElapsedTime().asSeconds());
 		draw();
 	}
 }

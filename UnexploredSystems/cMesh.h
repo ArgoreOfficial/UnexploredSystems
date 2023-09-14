@@ -50,4 +50,6 @@ public:
 	void setPosition( sf::Vector3f _position ) { m_position = _position; }
 
 	sf::Vector3f getRotation() { return m_rotation; }
+	sf::Vector3f getPosition() { return m_position; }
+	sf::Vector3f getScale() { return m_scale; }
 };
