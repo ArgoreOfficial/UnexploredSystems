@@ -15,16 +15,13 @@ class cMesh {
 private:
 	std::vector<float> m_vertices;
 	std::vector<unsigned int> m_face_indices;
-	std::vector<float> m_vertexColors;
 
 	unsigned int m_vertexArrayObject;
 	unsigned int m_vertexBufferObject;
 	unsigned int m_elementBufferObject;
-	unsigned int m_vertexColorBufferObject;
 
 	unsigned int m_vertexBufferSize;
 	unsigned int m_faceIndicesBufferSize;
-	unsigned int m_vertexColorBufferSize;
 
 	sf::Vector3f m_position;
 	sf::Vector3f m_rotation;
@@ -37,14 +34,12 @@ public:
 	void setupBuffers();
 
 	float* getVertexBuffer() { return &m_vertices[ 0 ]; }
-	float* getVertexColorBuffer() { return &m_vertexColors[ 0 ]; }
 	unsigned int* getFaceIndicesBuffer() { return &m_face_indices[ 0 ]; }
 
 	unsigned int getVertexArrayObject() { return m_vertexArrayObject; }
 	unsigned int getVertexBufferObject() { return m_vertexBufferObject; }
 	unsigned int getElementBufferObject() { return m_elementBufferObject; }
 	unsigned int getFaceIndicesBufferSize() { return m_faceIndicesBufferSize; }
-	unsigned int getVertexColorBufferSize() { return m_vertexColorBufferSize; }
 
 	void rotate( sf::Vector3f _angle ) { m_rotation += _angle; }
 	void scale( sf::Vector3f _delta ) { m_scale += _delta; }
@@ -54,5 +49,5 @@ public:
 	void setScale( sf::Vector3f _scale ) { m_scale = _scale; }
 	void setPosition( sf::Vector3f _position ) { m_position = _position; }
 
-	void draw( sf::RenderWindow& _window );
+	sf::Vector3f getRotation() { return m_rotation; }
 };

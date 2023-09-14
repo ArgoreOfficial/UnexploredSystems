@@ -8,7 +8,7 @@ private:
 
 	bool m_running = true;
 
-	void update();
+	void update(float _dt);
 	void draw();
 
 public:
