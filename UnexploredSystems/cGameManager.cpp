@@ -42,15 +42,16 @@ void cGameManager::update(float _dt, float _t)
 	if ( sf::Keyboard::isKeyPressed( sf::Keyboard::W ) )
 		m_camera.move( glm::vec3( 0, 0, -speed ) );
 	if ( sf::Keyboard::isKeyPressed( sf::Keyboard::S ) ) m_camera.move( glm::vec3( 0, 0, speed ) );
-	if ( sf::Keyboard::isKeyPressed( sf::Keyboard::A ) ) m_camera.move( glm::vec3( -speed, 0, 0) );
+	if ( sf::Keyboard::isKeyPressed( sf::Keyboard::A ) ) m_camera.move( glm::vec3( -speed, 0, 0 ) );
 	if ( sf::Keyboard::isKeyPressed( sf::Keyboard::D ) ) m_camera.move( glm::vec3( speed, 0, 0 ) );
 	if ( sf::Keyboard::isKeyPressed( sf::Keyboard::E ) ) m_camera.move( glm::vec3( 0, speed, 0 ) );
 	if ( sf::Keyboard::isKeyPressed( sf::Keyboard::Q ) ) m_camera.move( glm::vec3( 0, -speed, 0 ) );
 	
-	float rotspeed = 60.0f * speed;
+	float rotspeed = 3.0f * (1.0f / 60.0f);
 	m_camera.rotate( glm::vec3( 
-		std::clamp(m_mouseDelta.y * rotspeed, -rotspeed, rotspeed ),
-		std::clamp( m_mouseDelta.x * rotspeed, -rotspeed, rotspeed ), 0) );
+		m_mouseDelta.y * -rotspeed,
+		m_mouseDelta.x * -rotspeed, 
+		0) );
 
 	// if(abs( m_mouseDelta.x ) > 0) std::cout << m_mouseDelta.x << "\n";
 
@@ -83,8 +84,9 @@ void cGameManager::createWindow()
 
 	m_graphicsManager.initGL( m_window );
 	
-	// m_graphicsManager.loadMesh( "assets/meshes/testship.obj" );
+	m_graphicsManager.loadMesh( "assets/meshes/testship.obj" );
 	m_graphicsManager.loadMesh( "assets/meshes/NormalISD.obj" );
+	
 }
 
 void cGameManager::run()

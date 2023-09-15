@@ -1,5 +1,6 @@
 #pragma once
 
+#include <glm.hpp>
 #include <GL/glew.h>
 #include <SFML/OpenGL.hpp>
 #include <SFML/Graphics.hpp>
@@ -23,12 +24,12 @@ private:
 	unsigned int m_vertexBufferSize;
 	unsigned int m_faceIndicesBufferSize;
 
-	sf::Vector3f m_position;
-	sf::Vector3f m_rotation;
-	sf::Vector3f m_scale;
+	glm::vec3 m_position;
+	glm::vec3 m_rotation;
+	glm::vec3 m_scale;
 public:
 	cMesh();
-	cMesh( sf::Vector3f _position, sf::Vector3f _rotation );
+	cMesh( glm::vec3 _position, glm::vec3 _rotation );
 	~cMesh();
 	void loadFromFile( const std::string& _path );
 	void setupBuffers();
@@ -41,15 +42,15 @@ public:
 	unsigned int getElementBufferObject() { return m_elementBufferObject; }
 	unsigned int getFaceIndicesBufferSize() { return m_faceIndicesBufferSize; }
 
-	void rotate( sf::Vector3f _angle ) { m_rotation += _angle; }
-	void scale( sf::Vector3f _delta ) { m_scale += _delta; }
-	void move( sf::Vector3f _direction ) { m_position += _direction; }
+	void rotate( glm::vec3 _angle ) { m_rotation += _angle; }
+	void scale( glm::vec3 _delta ) { m_scale += _delta; }
+	void move( glm::vec3 _direction ) { m_position += _direction; }
 
-	void setRotation( sf::Vector3f _rotation ) { m_rotation = _rotation; }
-	void setScale( sf::Vector3f _scale ) { m_scale = _scale; }
-	void setPosition( sf::Vector3f _position ) { m_position = _position; }
+	void setRotation( glm::vec3 _rotation ) { m_rotation = _rotation; }
+	void setScale( glm::vec3 _scale ) { m_scale = _scale; }
+	void setPosition( glm::vec3 _position ) { m_position = _position; }
 
-	sf::Vector3f getRotation() { return m_rotation; }
-	sf::Vector3f getPosition() { return m_position; }
-	sf::Vector3f getScale() { return m_scale; }
+	glm::vec3 getRotation() { return m_rotation; }
+	glm::vec3 getPosition() { return m_position; }
+	glm::vec3 getScale() { return m_scale; }
 };

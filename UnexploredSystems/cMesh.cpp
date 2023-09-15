@@ -11,7 +11,7 @@ cMesh::cMesh():
 	m_scale( 1, 1, 1 )
 { }
 
-cMesh::cMesh( sf::Vector3f _position, sf::Vector3f _rotation ):
+cMesh::cMesh( glm::vec3 _position, glm::vec3 _rotation ):
 	m_vertexArrayObject( 0 ),
 	m_vertexBufferObject( 0 ),
 	m_elementBufferObject( 0 ),

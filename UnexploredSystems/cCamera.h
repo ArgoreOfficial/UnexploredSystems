@@ -20,8 +20,5 @@ public:
 	glm::vec3 getRotation() { return m_rotation; }
 
 	void move( glm::vec3 _direction );
-	void rotate( glm::vec3 _angle ) 
-	{ 
-		m_rotation += _angle; 
-	}
+	void rotate( glm::vec3 _angle );
 };

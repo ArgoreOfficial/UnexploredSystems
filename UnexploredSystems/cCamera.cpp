@@ -22,3 +22,10 @@ void cCamera::move( glm::vec3 _direction )
 
 	m_position += glm::vec3(glm::vec4(_direction, 0) * mat); 
 }
+
+void cCamera::rotate( glm::vec3 _angle )
+{
+	m_rotation += _angle;
+	if ( m_rotation.x >= 89 ) m_rotation.x = 89;
+	if ( m_rotation.x <= -89 ) m_rotation.x = -89;
+}

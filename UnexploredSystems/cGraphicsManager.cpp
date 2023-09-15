@@ -14,7 +14,7 @@ void cGraphicsManager::update(float _dt, float _t)
 {
 	for ( int i = 0; i < m_meshes.size(); i++ )
 	{
-		m_meshes[ i ].rotate( sf::Vector3f( 0, 0, 0 ) * _dt );
+		m_meshes[ i ].rotate( glm::vec3( 0, 0, 0 ) * _dt );
 	}
 }
 
@@ -59,9 +59,9 @@ void cGraphicsManager::draw( cCamera _camera )
 void cGraphicsManager::drawMesh( cMesh& _mesh, unsigned int& _shaderProgram, cCamera _camera, GLenum _mode )
 {
 	// transform
-	sf::Vector3f mesh_rot = _mesh.getRotation();
-	sf::Vector3f mesh_pos = _mesh.getPosition();
-	sf::Vector3f mesh_scale = _mesh.getScale();
+	glm::vec3 mesh_rot = _mesh.getRotation();
+	glm::vec3 mesh_pos = _mesh.getPosition();
+	glm::vec3 mesh_scale = _mesh.getScale();
 
 	glm::mat4 projection = _camera.getProjectionMatrix();
 
@@ -113,11 +113,12 @@ void cGraphicsManager::initGL( sf::Window* _window )
 	initShaders();
 }
 
-void cGraphicsManager::loadMesh( const std::string& _path )
+unsigned int cGraphicsManager::loadMesh( const std::string& _path )
 {
 	cMesh mesh;
 	mesh.loadFromFile( _path );
 	m_meshes.push_back( mesh );
+	return m_meshes.size();
 }
 
 unsigned int cGraphicsManager::loadVertexShader( const std::string& _path )
@@ -169,6 +170,11 @@ void cGraphicsManager::loadShaderProgram( std::string _name, unsigned int _vert,
 	glLinkProgram( shaderProgram );
 
 	m_shaderPrograms[ _name ] = shaderProgram;
+}
+
+void cGraphicsManager::setMeshPosition( const unsigned int& _id, const glm::vec3& _newPosition )
+{
+	m_meshes[ _id ].setPosition( _newPosition );
 }
 
 

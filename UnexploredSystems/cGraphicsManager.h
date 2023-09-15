@@ -19,10 +19,10 @@ public:
 	void draw( cCamera _camera );
 	void drawMesh(cMesh& _mesh, unsigned int& _shaderProgram, cCamera _camera, GLenum _mode = GL_FILL);
 	void initGL( sf::Window* _window );
-	void loadMesh( const std::string& _path );
+	unsigned int loadMesh( const std::string& _path );
 	unsigned int loadVertexShader( const std::string& _path );
 	unsigned int loadFragmentShader( const std::string& _path );
 	void loadShaderProgram( std::string _name, unsigned int _vert, unsigned int _frag );
-	
+	void setMeshPosition( const unsigned int& _id, const glm::vec3& _newPosition );
 	std::ifstream loadFileToStream( const std::string& _path );
 };
